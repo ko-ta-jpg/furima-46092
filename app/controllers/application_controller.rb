@@ -1,12 +1,17 @@
 class ApplicationController < ActionController::Base
-  before_action :basic_auth
+  before_action :basic_auth, if: :production?, unless: :healthcheck?
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   private
-  
+
+  def production?
+    Rails.env.production?
+  end
+
   def basic_auth
     authenticate_or_request_with_http_basic do |username, password|
-      username == ENV['BASIC_AUTH_USER'] && password == ENV['BASIC_AUTH_PASSWORD']
+      ActiveSupport::SecurityUtils.secure_compare(username, ENV.fetch("BASIC_AUTH_USER", ""))
+        && ActiveSupport::SecurityUtils.secure_compare(password, ENV.fetch("BASIC_AUTH_PASSWORD", ""))
     end
   end
 
@@ -15,7 +20,8 @@ class ApplicationController < ActionController::Base
       :nickname,
       :last_name, :first_name,
       :last_name_kana, :first_name_kana,
-      :birth_date
+      # ▼ DBカラム名が :birthday なら :birthday にする（:birth_date ではなく）
+      :birthday
     ]
     devise_parameter_sanitizer.permit(:sign_up, keys: added)
     devise_parameter_sanitizer.permit(:account_update, keys: added)
