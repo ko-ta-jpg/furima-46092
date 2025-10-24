@@ -71,3 +71,13 @@ group :development do
   gem 'rubocop', '1.71.2', require: false
 end
 gem "devise", "~> 4.9"
+end
+
+ruby "3.2.0"
+
+group :development, :test do
+  gem "mysql2", "~> 0.5" 
+end
+group :production do
+  gem "pg", "~> 1.5"
+end
