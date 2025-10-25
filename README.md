@@ -1,7 +1,5 @@
 ```mermaid
 
-# ER図
-
 erDiagram
   USERS ||--o{ ITEMS : "has many"
   USERS ||--o{ ORDERS : "has many"
