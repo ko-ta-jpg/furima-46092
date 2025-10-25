@@ -157,3 +157,11 @@
     </p>
   </footer>
 </div>
+
+<% if @item.errors.any? %>
+  <ul class="error-messages">
+    <% @item.errors.full_messages.uniq.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>

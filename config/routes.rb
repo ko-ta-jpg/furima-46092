@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-   get "/up", to: proc { [200, { "Content-Type" => "text/plain" }, ["OK"]] }
-  root "items#index"
-  resources :items
+  devise_for :users
+  root 'items#index'
+  resources :items, only: [:index, :new, :create]
 end
