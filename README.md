@@ -47,6 +47,7 @@ erDiagram
     string phone_number
     int    order_id FK
   }
+   ``` 
 
 # テーブル設計
 
