@@ -23,14 +23,18 @@ gem "tzinfo-data", platforms: %i[windows jruby]
 gem "devise", "~> 4.9"
 
 group :development, :test do
-  gem "debug", platforms: %i[mri windows]
+  gem 'rspec-rails', '~> 6.0'
+  gem 'factory_bot_rails'
+  gem 'faker'
+
+  gem 'debug', platforms: %i[mri windows]
+  gem 'rubocop', '1.71.2', require: false
 end
 
 group :development do
   gem "web-console"
-  gem "rubocop", "1.71.2", require: false
-  # gem "rack-mini-profiler"
-  # gem "spring"
+  gem "rack-mini-profiler"
+  gem "spring"
 end
 
 group :test do
@@ -41,3 +45,5 @@ end
 group :production do
   gem "pg", "~> 1.5"
 end
+
+gem 'active_hash'
