@@ -1,7 +1,55 @@
-<% if user_signed_in? %>
-  <span class="user-nickname"><%= current_user.nickname %> さん</span>
-  <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "logout-btn" %>
-<% else %>
-  <%= link_to "新規登録", new_user_registration_path, class: "sign-up-btn" %>
-  <%= link_to "ログイン", new_user_session_path, class: "login-btn" %>
-<% end %>
+<header class="top-page-header">
+  <!-- 上段：ロゴ＋検索フォーム -->
+  <div class="search-bar-contents">
+    <%= link_to root_path do %>
+      <%= image_tag "furima-logo-color.png", class: "furima-icon" %>
+    <% end %>
+
+    <!-- 検索フォーム（まだ機能なしでOK。見た目用のダミーでOK） -->
+    <form class="search-form">
+      <input class="input-box" type="text" placeholder="キーワードから探す">
+      <button class="search-button" type="submit">
+        <%= image_tag "search.png", class: "search-icon" %>
+      </button>
+    </form>
+  </div>
+
+  <!-- 下段：ナビメニュー -->
+  <div class="nav">
+    <!-- 左側：カテゴリー / ブランド -->
+    <ul class="lists-left">
+      <li>
+        <%= link_to "カテゴリー", "#", class: "category-list" %>
+      </li>
+      <li>
+        <%= link_to "ブランド", "#", class: "brand-list" %>
+      </li>
+    </ul>
+
+    <!-- 右側：ログイン状態で出し分け -->
+    <ul class="lists-right">
+      <% if user_signed_in? %>
+        <li>
+          <span class="user-nickname"><%= current_user.nickname %> さん</span>
+        </li>
+        <li>
+          <%= link_to "ログアウト",
+              destroy_user_session_path,
+              data: { turbo_method: :delete },
+              class: "logout" %>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to "ログイン",
+              new_user_session_path,
+              class: "login" %>
+        </li>
+        <li>
+          <%= link_to "新規登録",
+              new_user_registration_path,
+              class: "sign-up" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</header>
