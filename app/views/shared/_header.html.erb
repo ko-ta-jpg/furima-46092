@@ -42,17 +42,12 @@
         <li>
           <%= link_to "ログイン",
               new_user_session_path,
-              data: { turbo: false }, 
               class: "login" %>
         </li>
         <li>
           <%= link_to "新規登録",
-              new_user_registration_path,
-              data: { turbo: false }, 
+              new_user_registration_path, 
               class: "sign-up" %>
-        </li>
-        <li>
-          <a href="/users/sign_in" data-turbo="false" class="login">（検証）ログイン素リンク</a>
         </li>
       <% end %>
     </ul>

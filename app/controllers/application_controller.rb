@@ -3,8 +3,6 @@ class ApplicationController < ActionController::Base
   before_action :basic_auth, if: :production_env?
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  skip_before_action :basic_auth, if: :devise_controller?
-
   private
 
   # Basic認証
