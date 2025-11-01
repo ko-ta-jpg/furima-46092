@@ -54,6 +54,12 @@ RSpec.describe User, type: :model do
       expect(user.errors[:password]).to be_present
     end
 
+    it 'passwordが6文字未満では登録できない' do
+      user.password = 'a1b2c'
+      expect(user).to be_invalid
+      expect(user.errors[:password]).to be_present
+    end
+
     it '姓（全角）に半角が含まれると登録できない' do
       user.last_name = 'Yamada'
       expect(user).to be_invalid
