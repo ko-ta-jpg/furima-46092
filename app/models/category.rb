@@ -14,4 +14,8 @@ class Category < ActiveHash::Base
     { id: 11, name: 'その他' }
   ]
   has_many :items
+<<<<<<< Updated upstream
 end
+=======
+end
+>>>>>>> Stashed changes

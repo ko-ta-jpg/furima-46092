@@ -6,4 +6,8 @@ class ShippingFee < ActiveHash::Base
     { id: 3, name: '送料込み(出品者負担)' }
   ]
   has_many :items
+<<<<<<< Updated upstream
 end
+=======
+end
+>>>>>>> Stashed changes

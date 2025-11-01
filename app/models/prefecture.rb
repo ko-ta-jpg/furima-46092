@@ -53,4 +53,8 @@ class Prefecture < ActiveHash::Base
   ]
 
   has_many :items
+<<<<<<< Updated upstream
 end
+=======
+end
+>>>>>>> Stashed changes

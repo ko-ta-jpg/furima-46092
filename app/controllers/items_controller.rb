@@ -1,4 +1,6 @@
+
 class ItemsController < ApplicationController
+<<<<<<< Updated upstream
   before_action :authenticate_user!, only: [:new, :create]
 
   def index
@@ -25,6 +27,35 @@ class ItemsController < ApplicationController
   def item_params
     params.require(:item).permit(
       :name, :description, :price,
+      :category_id, :status_id, :shipping_fee_id, :prefecture_id, :schedule_id,
+      :image
+    )
+=======
+  before_action :authenticate_user!, only: %i[new create]
+
+  def index
+    @items = Item.includes(:user).order(created_at: :desc)
+>>>>>>> Stashed changes
+  end
+
+  def new
+    @item = Item.new
+  end
+
+  def create
+    @item = current_user.items.build(item_params)
+    if @item.save
+      redirect_to root_path, notice: '商品を出品しました'
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def item_params
+    params.require(:item).permit(
+      :title, :description, :price,            # ← カラム名は :title で統一推奨
       :category_id, :status_id, :shipping_fee_id, :prefecture_id, :schedule_id,
       :image
     )
