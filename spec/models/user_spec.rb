@@ -83,5 +83,54 @@ RSpec.describe User, type: :model do
       expect(user).to be_invalid
       expect(user.errors[:birthday]).to be_present
     end
+
+    it 'nicknameが空だと登録できない' do
+      user.nickname = ''
+      expect(user).to be_invalid
+      expect(user.errors[:nickname]).to be_present
+    end
+
+    it 'emailが空だと登録できない' do
+      user.email = ''
+      expect(user).to be_invalid
+      expect(user.errors[:email]).to be_present
+    end
+
+    it 'passwordが空だと登録できない' do
+      user.password = ''
+      user.password_confirmation = ''
+      expect(user).to be_invalid
+      expect(user.errors[:password]).to be_present
+    end
+
+    it 'last_nameが空だと登録できない' do
+      user.last_name = ''
+      expect(user).to be_invalid
+      expect(user.errors[:last_name]).to be_present
+    end
+
+    it 'first_nameが空だと登録できない' do
+      user.first_name = ''
+      expect(user).to be_invalid
+      expect(user.errors[:first_name]).to be_present
+    end
+
+    it 'last_name_kanaが空だと登録できない' do
+      user.last_name_kana = ''
+      expect(user).to be_invalid
+      expect(user.errors[:last_name_kana]).to be_present
+    end
+
+    it 'first_name_kanaが空だと登録できない' do
+      user.first_name_kana = ''
+      expect(user).to be_invalid
+      expect(user.errors[:first_name_kana]).to be_present
+    end
+
+    it 'birthdayが空だと登録できない' do
+      user.birthday = nil
+      expect(user).to be_invalid
+      expect(user.errors[:birthday]).to be_present
+    end
   end
 end
