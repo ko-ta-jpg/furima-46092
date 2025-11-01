@@ -4,13 +4,16 @@ class User < ApplicationRecord
 
   with_options presence: true do
     validates :nickname
-    validates :last_name
-    validates :first_name
-    validates :last_name_kana,  format: { with: /\A[ァ-ヶー－]+\z/ }
-    validates :first_name_kana, format: { with: /\A[ァ-ヶー－]+\z/ }
     validates :birthday
+    validates :last_name,  format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/ }
+    validates :first_name, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/ }
+    validates :last_name_kana,  format: { with: /\A[ァ-ヶー]+\z/ }
+    validates :first_name_kana, format: { with: /\A[ァ-ヶー]+\z/ }
   end
 
-  # パスワード英数混在（例）
-  validates :password, format: { with: /\A(?=.*[a-zA-Z])(?=.*\d).+\z/ }, if: -> { password.present? }
+  # 英字・数字を各1以上含み、かつ全角を含まないASCIIのみ
+  validates :password, format: {
+    with: /\A(?=.*[a-zA-Z])(?=.*\d)[\x20-\x7E]+\z/,
+    message: 'には英字と数字の両方を含めて設定してください'
+  }, if: -> { password.present? }
 end
