@@ -7,7 +7,6 @@ function setup() {
   const profitOut  = document.getElementById("profit");
   if (!priceInput || !feeOut || !profitOut) return;
 
-<<<<<<< Updated upstream
   const update = () => {
     const val = Number(priceInput.value);
     if (Number.isInteger(val)) {
@@ -24,28 +23,4 @@ function setup() {
   priceInput.removeEventListener("input", update);
   priceInput.addEventListener("input", update);
   update();
-=======
-  // 既にバインド済みならイベントは追加しない
-  if (!priceInput.dataset.bound) {
-    priceInput.addEventListener("input", onInput);
-    priceInput.dataset.bound = "true";
-  }
-
-  // 初回/再描画時にも必ず表示を更新
-  onInput();
-
-  function onInput() {
-    // 半角数値のみを想定（全角や文字混じりは NaN → 0 表示）
-    const v = Number(priceInput.value);
-    if (Number.isFinite(v)) {
-      const fee    = Math.floor(v * 0.1);
-      const profit = Math.floor(v - fee);
-      feeOut.textContent    = fee >= 0 ? fee : 0;
-      profitOut.textContent = profit >= 0 ? profit : 0;
-    } else {
-      feeOut.textContent    = 0;
-      profitOut.textContent = 0;
-    }
-  }
->>>>>>> Stashed changes
 }

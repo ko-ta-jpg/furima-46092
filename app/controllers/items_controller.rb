@@ -1,6 +1,5 @@
 
 class ItemsController < ApplicationController
-<<<<<<< Updated upstream
   before_action :authenticate_user!, only: [:new, :create]
 
   def index
@@ -30,12 +29,6 @@ class ItemsController < ApplicationController
       :category_id, :status_id, :shipping_fee_id, :prefecture_id, :schedule_id,
       :image
     )
-=======
-  before_action :authenticate_user!, only: %i[new create]
-
-  def index
-    @items = Item.includes(:user).order(created_at: :desc)
->>>>>>> Stashed changes
   end
 
   def new

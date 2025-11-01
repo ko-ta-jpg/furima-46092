@@ -10,8 +10,4 @@ class Status < ActiveHash::Base
     { id: 7, name: '全体的に状態が悪い' }
   ]
   has_many :items
-<<<<<<< Updated upstream
 end
-=======
-end
->>>>>>> Stashed changes

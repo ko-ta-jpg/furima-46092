@@ -40,11 +40,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_01_161713) do
   end
 
   create_table "items", charset: "utf8mb3", force: :cascade do |t|
-<<<<<<< Updated upstream
     t.string "name"
-=======
-    t.string "title"
->>>>>>> Stashed changes
     t.text "description"
     t.integer "price"
     t.integer "category_id"
