@@ -39,3 +39,4 @@ class Item < ApplicationRecord
             },
             allow_blank: true
 end
+
