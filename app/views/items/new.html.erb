@@ -6,7 +6,7 @@
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を入力</h2>
 
-    <%= form_with model: @item, url: items_path, local: true, html: { multipart: true } do |f| %>
+    <%= form_with model: @item, local: true do |f| %>
       <%# エラーメッセージ（重複防止のため uniq） %>
       <% if @item.errors.any? %>
         <ul class="error-messages">
@@ -32,7 +32,7 @@
         <div class="weight-bold-text">
           商品名 <span class="indispensable">必須</span>
         </div>
-        <%= f.text_area :title, class: "items-text", id: "item-name",
+        <%= f.text_area :name, class: "items-text", id: "item-name",
                         placeholder: "商品名（必須 40文字まで）", maxlength: 40 %>
 
         <div class="items-explain">
@@ -91,31 +91,35 @@
       </div>
 
       <%# 販売価格 %>
-      <div class="sell-price">
+      <div class="sell-price" data-controller="price">
         <div class="weight-bold-text question-text">
           <span>販売価格<br>(¥300〜9,999,999)</span>
           <a class="question" href="#">?</a>
         </div>
-        <div>
-          <div class="price-content">
-            <div class="price-text">
-              <span>価格</span><span class="indispensable">必須</span>
-            </div>
-            <span class="sell-yen">¥</span>
-            <%= f.number_field :price, class: "price-input",
-                                id: "item-price", placeholder: "例）300",
-                                min: 300, max: 9_999_999, step: 1 %>
-          </div>
-          <div class="price-content">
-            <span>販売手数料 (10%)</span>
-            <span><span id="add-tax-price"></span>円</span>
-          </div>
-          <div class="price-content">
-            <span>販売利益</span>
-            <span><span id="profit"></span>円</span>
-          </div>
-        </div>
+  <div>
+    <div class="price-content">
+      <div class="price-text">
+        <span>価格</span><span class="indispensable">必須</span>
       </div>
+      <span class="sell-yen">¥</span>
+      <%= f.text_field :price,
+            class: "price-input",
+            id: "item-price",
+            placeholder: "例）300",
+            inputmode: "numeric",
+            data: { price_target: "price", action: "input->price#recalc" } %>
+    </div>
+
+    <div class="price-content">
+      <span>販売手数料 (10%)</span>
+      <span><span id="add-tax-price" data-price-target="fee"></span>円</span>
+    </div>
+    <div class="price-content">
+      <span>販売利益</span>
+      <span><span id="profit" data-price-target="profit"></span>円</span>
+    </div>
+  </div>
+</div>
 
       <%# 下部ボタン %>
       <div class="sell-btn-contents">

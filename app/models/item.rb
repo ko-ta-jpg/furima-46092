@@ -10,7 +10,6 @@ class Item < ApplicationRecord
   belongs_to :prefecture
   belongs_to :schedule
 
-
   with_options presence: true do
     validates :image
     validates :name
@@ -40,4 +39,3 @@ class Item < ApplicationRecord
             },
             allow_blank: true
 end
-

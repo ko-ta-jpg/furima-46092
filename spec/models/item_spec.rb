@@ -27,9 +27,9 @@ RSpec.describe Item, type: :model do
     end
 
     it 'タイトル必須' do
-      item.title = ''
-      item.valid?
-      expect(item.errors.full_messages).to include("Title can't be blank")
+      item.name = ''
+        item.valid?
+        expect(item.errors.full_messages).to include("Name can't be blank")
     end
 
     it '説明必須' do
