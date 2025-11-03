@@ -23,12 +23,11 @@ gem "tzinfo-data", platforms: %i[windows jruby]
 gem "devise", "~> 4.9"
 
 group :development, :test do
-  gem 'rspec-rails', '~> 6.0'
+  gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'faker'
-
-  gem 'debug', platforms: %i[mri windows]
-  gem 'rubocop', '1.71.2', require: false
+  gem 'rubocop-rspec', require: false   # あると便利
+  gem 'rubocop-factory_bot', require: false
 end
 
 group :development do

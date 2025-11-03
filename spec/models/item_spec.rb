@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Item, type: :model do
   let(:user) { create(:user) }
-  let(:item) { build(:item, user:) }
+  let(:item) { build(:item, user: user) }
 
   before do
     # 画像を添付（spec/fixtures/files/sample.png を用意しておく）
