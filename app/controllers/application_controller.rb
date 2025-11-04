@@ -34,6 +34,5 @@ class ApplicationController < ActionController::Base
       :birthday
     ]
     devise_parameter_sanitizer.permit(:sign_up, keys: added)
-    devise_parameter_sanitizer.permit(:account_update, keys: added)
   end
 end
