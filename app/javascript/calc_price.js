@@ -3,7 +3,6 @@
     const priceInput = document.querySelector("#item-price");
     const feeOut     = document.querySelector("#add-tax-price");
     const profitOut  = document.querySelector("#profit");
-
     if (!priceInput || !feeOut || !profitOut) return;
 
     const recalc = () => {
@@ -13,7 +12,6 @@
         profitOut.textContent = "";
         return;
       }
-
       const val = parseInt(digits, 10);
       if (Number.isFinite(val)) {
         const fee    = Math.floor(val * 0.1);
@@ -26,10 +24,10 @@
       }
     };
 
-    priceInput.addEventListener("input", recalc);
+    priceInput.oninput = recalc;
     recalc();
   };
 
-  window.addEventListener("turbo:load", boot);
-  window.addEventListener("DOMContentLoaded", boot);
+  document.addEventListener("turbo:load", boot);
+  document.addEventListener("turbo:render", boot);
 })();

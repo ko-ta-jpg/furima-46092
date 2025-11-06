@@ -4,15 +4,6 @@ RSpec.describe Item, type: :model do
   let(:user) { create(:user) }
   let(:item) { build(:item, user: user) }
 
-  before do
-    # 画像を添付（spec/fixtures/files/sample.png を用意しておく）
-    item.image.attach(
-      io: File.open(Rails.root.join('spec/fixtures/files/sample.png')),
-      filename: 'sample.png',
-      content_type: 'image/png'
-    )
-  end
-
   context '出品できる' do
     it '必須項目が揃えば有効' do
       expect(item).to be_valid
@@ -91,6 +82,13 @@ RSpec.describe Item, type: :model do
       item.valid?
       expect(item.errors.full_messages).to include('Schedule must be selected')
     end
+  
+    it 'userが紐づいていなければ出品できない' do
+      item.user = nil
+      item.valid?
+      expect(item.errors.full_messages).to include('User must exist')
+    end
+  
   end
 end
 
