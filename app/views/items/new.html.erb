@@ -8,16 +8,7 @@
 
 
     <%= form_with model: @item, local: true do |f| %>
-      <%# エラーメッセージ（重複防止のため uniq） %>
-      <% if @item.errors.any? %>
-      <div class="error-alert">
-        <ul class="error-messages">
-          <% @item.errors.full_messages.uniq.each do |msg| %>
-            <li class="error-message"><%= msg %></li>
-          <% end %>
-        </ul>
-      </div>
-      <% end %>
+      <%= render "shared/error_messages", model: @item %>
 
       <%# 商品画像 %>
       <div class="img-upload">

@@ -1,24 +1,19 @@
 (() => {
   const boot = () => {
-    console.log("[calc_price] loaded"); // 読み込み確認
-
     const priceInput = document.querySelector("#item-price");
     const feeOut     = document.querySelector("#add-tax-price");
     const profitOut  = document.querySelector("#profit");
 
-    if (!priceInput || !feeOut || !profitOut) {
-      console.log("[calc_price] elements not found");
-      return;
-    }
+    if (!priceInput || !feeOut || !profitOut) return;
 
     const recalc = () => {
-      const raw = priceInput.value ?? "";
-      const digits = raw.replace(/[^\d]/g, ""); // 数字以外除去
+      const digits = (priceInput.value || "").replace(/[^\d]/g, "");
       if (digits === "") {
-        feeOut.textContent = "0";
-        profitOut.textContent = "0";
+        feeOut.textContent = "";
+        profitOut.textContent = "";
         return;
       }
+
       const val = parseInt(digits, 10);
       if (Number.isFinite(val)) {
         const fee    = Math.floor(val * 0.1);
@@ -26,21 +21,15 @@
         feeOut.textContent    = String(fee);
         profitOut.textContent = String(profit);
       } else {
-        feeOut.textContent = "0";
-        profitOut.textContent = "0";
+        feeOut.textContent = "";
+        profitOut.textContent = "";
       }
     };
 
-    // 入力時に再計算（IME対策でkeyupも）
     priceInput.addEventListener("input", recalc);
-    priceInput.addEventListener("keyup", recalc);
-
-    // 初期表示でも計算
     recalc();
   };
 
-  // Turbo/通常どちらでも発火
-  document.addEventListener("turbo:load",  boot);
-  document.addEventListener("turbo:render", boot);
-  document.addEventListener("DOMContentLoaded", boot);
+  window.addEventListener("turbo:load", boot);
+  window.addEventListener("DOMContentLoaded", boot);
 })();
