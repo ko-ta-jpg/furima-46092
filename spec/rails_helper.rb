@@ -25,4 +25,7 @@ RSpec.configure do |config|
 
   # FactoryBotの `build(:user)` をそのまま書けるように
   config.include FactoryBot::Syntax::Methods
+
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
+
 end

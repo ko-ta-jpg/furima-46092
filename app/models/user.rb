@@ -2,6 +2,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :items, dependent: :destroy
+
   with_options presence: true do
     validates :nickname
     validates :birthday
@@ -13,7 +15,8 @@ class User < ApplicationRecord
 
   # 英字・数字を各1以上含み、かつ全角を含まないASCIIのみ
   validates :password, format: {
-    with: /\A(?=.*[a-zA-Z])(?=.*\d)[\x20-\x7E]+\z/,
+    with: /\A(?=.*[a-zA-Z])(?=.*\d)[!-~]+\z/, # スペースを除外（必要なら）
+
     message: 'には英字と数字の両方を含めて設定してください'
   }, if: -> { password.present? }
 end
