@@ -12,7 +12,7 @@ require 'rspec/rails'
 
 # FactoryBotのメソッド（build / create など）を使いやすくする
 RSpec.configure do |config|
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = "#{Rails.root}/spec/fixtures"
 
   # トランザクションでテストDBをきれいに保つ（Rails標準）
   config.use_transactional_fixtures = true
