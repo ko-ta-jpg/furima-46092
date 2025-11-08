@@ -4,7 +4,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
   
   def index
-    #@items = Item.includes(:user).order(created_at: :desc) # 新しい順で表示
+        @items = Item.includes(:user, image_attachment: :blob).order(created_at: :desc)
   end
 
   def new
