@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddProfileFieldsToUsers < ActiveRecord::Migration[7.1]
   def change
     add_column :users, :nickname,        :string unless column_exists?(:users, :nickname)

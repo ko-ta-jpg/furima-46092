@@ -312,5 +312,4 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 
   config.navigational_formats = ['*/*', :html, :turbo_stream]
-  
 end
