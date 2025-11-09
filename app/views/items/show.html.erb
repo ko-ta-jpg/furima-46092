@@ -1,0 +1,76 @@
+<%= render "shared/header" %>
+
+<div class="item-show">
+  <div class="item-show__main">
+    <div class="item-show__image">
+      <% if @item.image.attached? %>
+        <%= image_tag @item.image, class: "item-img" %>
+      <% else %>
+        <%= image_tag "item-sample.png", class: "item-img" %>
+      <% end %>
+
+      <%# 購入機能実装後に有効化（売却済みオーバーレイ） %>
+      <%# if @item.sold_out? %>
+      <%#   <div class="sold-out"><span>Sold Out!!</span></div> %>
+      <%# end %>
+    </div>
+
+    <div class="item-show__info">
+      <h2 class="item-name"><%= @item.name %></h2>
+
+      <div class="item-price">
+        <span><%= number_with_delimiter(@item.price) %>円</span>
+        <span class="item-shipping">（<%= @item.shipping_fee.name %>）</span>
+      </div>
+
+      <div class="item-description">
+        <h3>商品の説明</h3>
+        <p><%= simple_format(@item.description) %></p>
+      </div>
+
+      <table class="item-detail-table">
+        <tbody>
+          <tr>
+            <th>出品者</th>
+            <td><%= @item.user.nickname %></td>
+          </tr>
+          <tr>
+            <th>カテゴリー</th>
+            <td><%= @item.category.name %></td>
+          </tr>
+          <tr>
+            <th>商品の状態</th>
+            <td><%= @item.status.name %></td>
+          </tr>
+          <tr>
+            <th>発送元の地域</th>
+            <td><%= @item.prefecture.name %></td>
+          </tr>
+          <tr>
+            <th>発送日の目安</th>
+            <td><%= @item.schedule.name %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="item-actions">
+        <%# --- ボタン表示条件 --- %>
+        <% if user_signed_in? %>
+          <% if current_user == @item.user %>
+            <%# 自分の出品（販売中）→ 編集・削除のみ（購入ボタンは出さない） %>
+            <%= link_to '商品の編集', '#', class: 'btn btn-edit' %>
+            <%= link_to '削除', '#', class: 'btn btn-delete',
+                        data: { turbo_confirm: '削除してよろしいですか？' } %>
+          <% else %>
+            <%# 他人の出品（販売中）→ 購入へ進むのみ（購入機能導入前は # でOK） %>
+            <%= link_to '購入画面に進む', '#', class: 'btn btn-buy' %>
+          <% end %>
+        <% end %>
+
+        <%# 売却済みの場合の3ボタン非表示は購入機能実装後に @item.sold_out? で分岐を追加 %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "shared/footer" %>

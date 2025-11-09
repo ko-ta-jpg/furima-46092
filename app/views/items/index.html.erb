@@ -136,10 +136,8 @@
               <% else %>
                 <%= image_tag "item-sample.png", class: "item-img" %>
               <% end %>
-
               <%# 購入機能実装後に有効化
               <%# <div class='sold-out'><span>Sold Out!!</span></div> %>
-              
             </div>
 
             <div class='item-info'>
@@ -178,19 +176,15 @@
   </ul>
 </div>
   
-  
-
      
-        <%= link_to "#" do %>
+        <%= link_to item_path(item) do %>
         <div class='item-img-content'>
           <%= image_tag "item-sample.png", class: "item-img" %>
-
           
           <div class='sold-out'>
             <span>Sold Out!!</span>
           </div>
           
-
         </div>
         <div class='item-info'>
           <h3 class='item-name'>
