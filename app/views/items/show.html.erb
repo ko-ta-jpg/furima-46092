@@ -1,73 +1,73 @@
 <%= render "shared/header" %>
 
 <div class="item-show">
-  <div class="item-show__main">
-    <div class="item-show__image">
-      <% if @item.image.attached? %>
-        <%= image_tag @item.image, class: "item-img" %>
-      <% else %>
-        <%= image_tag "item-sample.png", class: "item-img" %>
-      <% end %>
+  <div class="item-box">
+    <h2 class="name"><%= @item.name %></h2>
 
-      <%# 購入機能実装後に有効化（売却済みオーバーレイ） %>
-      <%# if @item.sold_out? %>
-      <%#   <div class="sold-out"><span>Sold Out!!</span></div> %>
-      <%# end %>
+    <%# 画像 %>
+    <% if @item.image.attached? %>
+      <%= image_tag @item.image, class: "item-box-img" %>
+    <% else %>
+      <%= image_tag "item-sample.png", class: "item-box-img" %>
+    <% end %>
+
+    <%# 価格・配送料 %>
+    <div class="item-price-box">
+      <div class="item-price"><%= number_with_delimiter(@item.price) %>円</div>
+      <div class="item-postage"><%= @item.shipping_fee.name %></div>
     </div>
 
-    <div class="item-show__info">
-      <h2 class="item-name"><%= @item.name %></h2>
-
-      <div class="item-price">
-        <span><%= number_with_delimiter(@item.price) %>円</span>
-        <span class="item-shipping">（<%= @item.shipping_fee.name %>）</span>
-      </div>
-
-      <div class="item-description">
-        <h3>商品の説明</h3>
-        <p><%= simple_format(@item.description) %></p>
-      </div>
-
-      <table class="item-detail-table">
-        <tbody>
-          <tr>
-            <th>出品者</th>
-            <td><%= @item.user.nickname %></td>
-          </tr>
-          <tr>
-            <th>カテゴリー</th>
-            <td><%= @item.category.name %></td>
-          </tr>
-          <tr>
-            <th>商品の状態</th>
-            <td><%= @item.status.name %></td>
-          </tr>
-          <tr>
-            <th>発送元の地域</th>
-            <td><%= @item.prefecture.name %></td>
-          </tr>
-          <tr>
-            <th>発送日の目安</th>
-            <td><%= @item.schedule.name %></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="item-actions">
-        <%# --- ボタン表示条件 --- %>
-        <% if user_signed_in? %>
-          <% if current_user == @item.user %>
-            <%# 自分の出品（販売中）→ 編集・削除のみ（購入ボタンは出さない） %>
-            <%= link_to '商品の編集', '#', class: 'btn btn-edit' %>
-            <%= link_to '削除', '#', class: 'btn btn-delete',
-                        data: { turbo_confirm: '削除してよろしいですか？' } %>
-          <% else %>
-            <%# 他人の出品（販売中）→ 購入へ進むのみ（購入機能導入前は # でOK） %>
-            <%= link_to '購入画面に進む', '#', class: 'btn btn-buy' %>
-          <% end %>
+    <%# 購入/編集系ボタン（購入機能は後で実装） %>
+    <div class="option" style="margin-bottom: 20px;">
+      <% if user_signed_in? %>
+        <% if current_user == @item.user %>
+          <%= link_to '商品の編集', '#', class: 'item-red-btn' %>
+          <%= link_to '削除', '#', class: 'item-destroy', data: { turbo_confirm: '削除してよろしいですか？' } %>
+        <% else %>
+          <%# 購入機能実装時に活性化する想定 %>
+          <%#= link_to '購入画面に進む', '#', class: 'item-red-btn' %>
         <% end %>
+      <% end %>
+    </div>
 
-        <%# 売却済みの場合の3ボタン非表示は購入機能実装後に @item.sold_out? で分岐を追加 %>
+    <%# 説明 %>
+    <div class="item-explain-box">
+      <%= simple_format(@item.description) %>
+    </div>
+
+    <%# 詳細テーブル %>
+    <table class="detail-table">
+      <tbody>
+        <tr>
+          <th class="detail-item">出品者</th>
+          <td class="detail-value"><%= @item.user.nickname %></td>
+        </tr>
+        <tr>
+          <th class="detail-item">カテゴリー</th>
+          <td class="detail-value"><%= @item.category.name %></td>
+        </tr>
+        <tr>
+          <th class="detail-item">商品の状態</th>
+          <td class="detail-value"><%= @item.status.name %></td>
+        </tr>
+        <tr>
+          <th class="detail-item">発送元の地域</th>
+          <td class="detail-value"><%= @item.prefecture.name %></td>
+        </tr>
+        <tr>
+          <th class="detail-item">発送日の目安</th>
+          <td class="detail-value"><%= @item.schedule.name %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <%# お気に入り/違反報告（見た目だけ） %>
+    <div class="option">
+      <div class="favorite-btn">
+        <%= image_tag "star.png", class: "favorite-star-icon" %> お気に入り 0
+      </div>
+      <div class="report-btn">
+        <%= image_tag "flag.png", class: "report-flag-icon" %> 不適切な商品の報告
       </div>
     </div>
   </div>

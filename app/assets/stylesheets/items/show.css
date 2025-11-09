@@ -101,20 +101,24 @@
 
 .option {
   display: flex;
-  justify-content: space-between;
-  position: relative;
+  justify-content: center;   /* ← space-between をやめて中央寄せ */
+  align-items: center;
+  gap: 24px;                  /* ボタン間の余白 */
+  flex-wrap: wrap;
+  margin: 32px 0;
 }
 
 .favorite-btn {
   border-radius: 40px;
   width: 15vw;
-  min-width: 200px;
+  min-width: 260px;
   color: rgb(249, 75, 0);
   border: 2px solid #ffb340;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 20px;
+  height: 40px;
 }
 
 .favorite-star-icon {
@@ -122,22 +126,35 @@
 }
 
 .report-btn {
-  border-radius: 40px;
-  width: 15vw;
-  min-width: 200px;
-
-  padding: 1vh 0;
-  color: black;
-  border: 2px solid #2d2d2d;
-  display: flex;
-  justify-content: center;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  height: 40px;              
+  min-width: 260px;          
+  padding: 0 28px;           
+  border-radius: 9999px;     
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  background: #fff;
+  text-decoration: none;
+  transition: background-color .15s ease, transform .02s ease;
 }
 
 .report-flag-icon {
-  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
 }
 
+.favorite-btn {
+  border: 2px solid #ffb340;
+  color: rgb(249, 75, 0);
+}
+.report-btn {
+  border: 2px solid #2d2d2d;
+  color: #111;
+}
 
 /* /商品の概要 */
 
