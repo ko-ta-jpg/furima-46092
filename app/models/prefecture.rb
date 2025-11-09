@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Prefecture < ActiveHash::Base
   include ActiveHash::Associations
 
@@ -53,4 +55,3 @@ class Prefecture < ActiveHash::Base
   ]
   has_many :items
 end
-

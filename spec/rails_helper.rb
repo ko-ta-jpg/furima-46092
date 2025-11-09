@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/rails_helper.rb
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
@@ -12,7 +14,7 @@ require 'rspec/rails'
 
 # FactoryBotのメソッド（build / create など）を使いやすくする
 RSpec.configure do |config|
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = Rails.root.join('spec/fixtures').to_s
 
   # トランザクションでテストDBをきれいに保つ（Rails標準）
   config.use_transactional_fixtures = true
@@ -26,6 +28,5 @@ RSpec.configure do |config|
   # FactoryBotの `build(:user)` をそのまま書けるように
   config.include FactoryBot::Syntax::Methods
 
-Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
-
+  Rails.root.glob('spec/support/**/*.rb').each { |f| require f }
 end

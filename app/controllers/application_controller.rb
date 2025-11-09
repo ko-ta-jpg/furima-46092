@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   # 本番環境のときだけBasic認証をかける
   before_action :basic_auth, if: :production_env?
@@ -27,11 +29,11 @@ class ApplicationController < ActionController::Base
 
   # Deviseのストロングパラメータ許可
   def configure_permitted_parameters
-    added = [
-      :nickname,
-      :last_name, :first_name,
-      :last_name_kana, :first_name_kana,
-      :birthday
+    added = %i[
+      nickname
+      last_name first_name
+      last_name_kana first_name_kana
+      birthday
     ]
     devise_parameter_sanitizer.permit(:sign_up, keys: added)
   end

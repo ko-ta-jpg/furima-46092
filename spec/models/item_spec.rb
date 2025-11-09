@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
@@ -19,8 +21,8 @@ RSpec.describe Item, type: :model do
 
     it 'タイトル必須' do
       item.name = ''
-        item.valid?
-        expect(item.errors.full_messages).to include("Name can't be blank")
+      item.valid?
+      expect(item.errors.full_messages).to include("Name can't be blank")
     end
 
     it '説明必須' do
@@ -82,13 +84,11 @@ RSpec.describe Item, type: :model do
       item.valid?
       expect(item.errors.full_messages).to include('Schedule must be selected')
     end
-  
+
     it 'userが紐づいていなければ出品できない' do
       item.user = nil
       item.valid?
       expect(item.errors.full_messages).to include('User must exist')
     end
-  
   end
 end
-

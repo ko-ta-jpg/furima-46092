@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Status < ActiveHash::Base
   self.data = [
     { id: 1, name: '---' },
@@ -10,5 +12,6 @@ class Status < ActiveHash::Base
   ]
 
   include ActiveHash::Associations
+
   has_many :items
 end

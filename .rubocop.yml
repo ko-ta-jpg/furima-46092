@@ -1,15 +1,25 @@
 AllCops:
-  TargetRubyVersion: 3.2
   NewCops: enable
-  SuggestExtensions: false
-  Exclude:
-    - 'bin/**/*'
-    - 'db/**/*'
-    - 'node_modules/**/*'
-    - 'vendor/**/*'
-    - 'tmp/**/*'
+  TargetRubyVersion: 3.2
 
-require:
+plugins:
   - rubocop-rails
+  - rubocop-performance
   - rubocop-rspec
   - rubocop-factory_bot
+
+# うるさい or 学習用には不要な Cop を絞る（必要に応じて）
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/ContextWording:
+  Enabled: false
+RSpec/RepeatedExample:
+  Enabled: false
+RSpec/RepeatedDescription:
+  Enabled: false
+
+FactoryBot/AssociationStyle:
+  EnforcedStyle: implicit 

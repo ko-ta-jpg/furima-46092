@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :item do
-    association :user
+    user
 
     name        { 'テスト商品' }
     description { '説明テキスト' }

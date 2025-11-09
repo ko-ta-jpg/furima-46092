@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
 
   # ActiveHash
   extend ActiveHash::Associations::ActiveRecordExtensions
+
   belongs_to :category
   belongs_to :status
   belongs_to :shipping_fee
@@ -39,4 +42,3 @@ class Item < ApplicationRecord
             },
             allow_blank: true
 end
-
