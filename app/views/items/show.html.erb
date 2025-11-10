@@ -18,15 +18,13 @@
     </div>
 
     <%# 購入/編集系ボタン（購入機能は後で実装） %>
-    <div class="option" style="margin-bottom: 20px;">
-      <% if user_signed_in? %>
-        <% if current_user == @item.user %>
-          <%= link_to '商品の編集', '#', class: 'item-red-btn' %>
-          <%= link_to '削除', '#', class: 'item-destroy', data: { turbo_confirm: '削除してよろしいですか？' } %>
-        <% else %>
-          <%# 購入機能実装時に活性化する想定 %>
-          <%#= link_to '購入画面に進む', '#', class: 'item-red-btn' %>
-        <% end %>
+    <div class="option item-actions" style="margin-bottom: 20px; gap: 16px;">
+      <% if user_signed_in? && current_user == @item.user %>
+        <%= link_to '商品の編集', '#', class: 'item-red-btn' %>
+        <%= link_to '削除', '#', class: 'item-destroy',
+                data: { turbo_confirm: '削除してよろしいですか？' } %>
+      <% elsif user_signed_in? && current_user != @item.user %>
+        <%= link_to '購入画面に進む', '#', class: 'item-red-btn' %>
       <% end %>
     </div>
 
