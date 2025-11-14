@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: %i[new create edit update]
   before_action :set_item, only: %i[show edit update]
-  before_action :authorize_owner!, only: %i[edit update]  # 出品者以外は弾く
+  before_action :authorize_item!, only: %i[edit update]
 
   def index
     @items = Item.includes(:user, image_attachment: :blob).order(created_at: :desc)
@@ -22,10 +22,7 @@ class ItemsController < ApplicationController
     end
   end
 
-  def edit
-    # @item は set_item 済み
-    # ※ 画面は new とほぼ同じ見た目にするのでフォームを部分テンプレ化して再利用します
-  end
+  def edit; end
 
   def update
     # 画像は新しく選ばれていない限りそのままなので「何も編集せず変更」でも画像は消えません
@@ -43,12 +40,9 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
-  def authorize_owner!
-    # 購入機能未実装のため「売却済みで弾く」は後で追加。今は出品者以外をトップへ。
-    return if current_user == @item.user
-
-    redirect_to root_path, alert: '権限がありません。'
-  end
+  def authorize_item!
+      redirect_to root_path unless current_user == @item.user
+    end
 
   def item_params
     params.require(:item).permit(

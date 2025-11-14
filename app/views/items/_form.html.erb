@@ -1,60 +1,113 @@
-<%= render 'shared/error_messages', model: f.object %> <%# 既存パーシャルがある想定 %>
-
 <%= form_with model: @item, local: true do |f| %>
-  <%# 雛形のクラス名・構造は変えない。name属性などはDBに合わせる %>
+  <%= render "shared/error_messages", model: @item %>
 
-  <%# 画像（プレビューは任意。未選択なら現画像維持） %>
+  <!-- 商品画像 -->
   <div class="img-upload">
-    <div class="weight-bold-text">商品画像</div>
+    <div class="weight-bold-text">
+      商品画像 <span class="indispensable">必須</span>
+    </div>
     <div class="click-upload">
-      <%= f.file_field :image %>
+      <p>クリックしてファイルをアップロード</p>
+      <%= f.file_field :image, id: "item-image" %>
     </div>
   </div>
 
-  <%# 商品名 %>
+  <!-- 商品名と商品説明 -->
   <div class="new-items">
-    <div class="weight-bold-text">商品名</div>
-    <%= f.text_field :name, class: "items-text", placeholder: "商品名（必須）" %>
+    <div class="weight-bold-text">
+      商品名 <span class="indispensable">必須</span>
+    </div>
+    <%= f.text_area :name, class: "items-text", id: "item-name",
+                    placeholder: "商品名（必須 40文字まで）", maxlength: 40 %>
+    <div class="items-explain">
+      <div class="weight-bold-text">
+        商品の説明 <span class="indispensable">必須</span>
+      </div>
+      <%= f.text_area :description, class: "items-text", id: "item-info",
+                      placeholder: "商品の説明（必須 1,000文字まで）",
+                      rows: 7, maxlength: 1000 %>
+    </div>
   </div>
 
-  <%# 商品の説明 %>
-  <div class="items-explain">
-    <div class="weight-bold-text">商品の説明</div>
-    <%= f.text_area :description, class: "items-text", placeholder: "商品の説明（必須）" %>
-  </div>
-
-  <%# 各セレクト（ActiveHash） %>
+  <!-- 商品の詳細 -->
   <div class="items-detail">
     <div class="weight-bold-text">商品の詳細</div>
     <div class="form">
-      <div class="select-box">
-        <%= f.collection_select :category_id, Category.all, :id, :name, {}, class: 'select-box' %>
+      <div class="weight-bold-text">
+        カテゴリー <span class="indispensable">必須</span>
       </div>
-      <div class="select-box">
-        <%= f.collection_select :status_id, Status.all, :id, :name, {}, class: 'select-box' %>
+      <%= f.collection_select :category_id, Category.all, :id, :name,
+            {}, { class: "select-box", id: "item-category" } %>
+
+      <div class="weight-bold-text">
+        商品の状態 <span class="indispensable">必須</span>
+      </div>
+      <%= f.collection_select :status_id, Status.all, :id, :name,
+            {}, { class: "select-box", id: "item-sales-status" } %>
+    </div>
+  </div>
+
+  <!-- 配送について -->
+  <div class="items-detail">
+    <div class="weight-bold-text question-text">
+      <span>配送について</span>
+      <a class="question" href="#">?</a>
+    </div>
+    <div class="form">
+      <div class="weight-bold-text">
+        配送料の負担 <span class="indispensable">必須</span>
+      </div>
+      <%= f.collection_select :shipping_fee_id, ShippingFee.all, :id, :name,
+            {}, { class: "select-box", id: "item-shipping-fee-status" } %>
+
+      <div class="weight-bold-text">
+        発送元の地域 <span class="indispensable">必須</span>
+      </div>
+      <%= f.collection_select :prefecture_id, Prefecture.all, :id, :name,
+            {}, { class: "select-box", id: "item-prefecture" } %>
+
+      <div class="weight-bold-text">
+        発送までの日数 <span class="indispensable">必須</span>
+      </div>
+      <%= f.collection_select :schedule_id, Schedule.all, :id, :name,
+            {}, { class: "select-box", id: "item-scheduled-delivery" } %>
+    </div>
+  </div>
+
+  <!-- 販売価格 -->
+  <div class="sell-price" data-controller="price">
+    <div class="weight-bold-text question-text">
+      <span>販売価格<br>(¥300〜9,999,999)</span>
+      <a class="question" href="#">?</a>
+    </div>
+    <div>
+      <div class="price-content">
+        <div class="price-text">
+          <span>価格</span><span class="indispensable">必須</span>
+        </div>
+        <span class="sell-yen">¥</span>
+        <%= f.text_field :price,
+              class: "price-input",
+              id: "item-price",
+              placeholder: "例）300",
+              inputmode: "numeric",
+              data: { price_target: "price", action: "input->price#recalc" } %>
+      </div>
+
+      <div class="price-content">
+        <span>販売手数料 (10%)</span>
+        <span><span id="add-tax-price" data-price-target="fee"></span>円</span>
+      </div>
+      <div class="price-content">
+        <span>販売利益</span>
+        <span><span id="profit" data-price-target="profit"></span>円</span>
       </div>
     </div>
   </div>
 
-  <div class="items-shipping">
-    <div class="weight-bold-text">配送料の負担</div>
-    <%= f.collection_select :shipping_fee_id, ShippingFee.all, :id, :name, {}, class: 'select-box' %>
-
-    <div class="weight-bold-text">発送元の地域</div>
-    <%= f.collection_select :prefecture_id, Prefecture.all, :id, :name, {}, class: 'select-box' %>
-
-    <div class="weight-bold-text">発送までの日数</div>
-    <%= f.collection_select :schedule_id, Schedule.all, :id, :name, {}, class: 'select-box' %>
-  </div>
-
-  <div class="items-price">
-    <div class="weight-bold-text">販売価格</div>
-    <%= f.number_field :price, class: "price-input", placeholder: "300〜9,999,999" %>
-    <%# 手数料・利益の即時計算表示は要件外。出品時と同じ見た目ならOK %>
-  </div>
-
+  <!-- 下部ボタン -->
   <div class="sell-btn-contents">
-    <%= f.submit @item.persisted? ? '変更する' : '出品する', class: "sell-btn" %>
-    <%= link_to 'もどる', @item.persisted? ? item_path(@item) : root_path, class: "back-btn" %>
+    <%= f.submit (defined?(submit_label) ? submit_label : "出品する"), class: "sell-btn" %>
+    <%= link_to 'もどる', (defined?(back_path) ? back_path : root_path), class: "back-btn" %>
   </div>
 <% end %>
