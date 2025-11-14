@@ -1,0 +1,60 @@
+<%= render 'shared/error_messages', model: f.object %> <%# 既存パーシャルがある想定 %>
+
+<%= form_with model: @item, local: true do |f| %>
+  <%# 雛形のクラス名・構造は変えない。name属性などはDBに合わせる %>
+
+  <%# 画像（プレビューは任意。未選択なら現画像維持） %>
+  <div class="img-upload">
+    <div class="weight-bold-text">商品画像</div>
+    <div class="click-upload">
+      <%= f.file_field :image %>
+    </div>
+  </div>
+
+  <%# 商品名 %>
+  <div class="new-items">
+    <div class="weight-bold-text">商品名</div>
+    <%= f.text_field :name, class: "items-text", placeholder: "商品名（必須）" %>
+  </div>
+
+  <%# 商品の説明 %>
+  <div class="items-explain">
+    <div class="weight-bold-text">商品の説明</div>
+    <%= f.text_area :description, class: "items-text", placeholder: "商品の説明（必須）" %>
+  </div>
+
+  <%# 各セレクト（ActiveHash） %>
+  <div class="items-detail">
+    <div class="weight-bold-text">商品の詳細</div>
+    <div class="form">
+      <div class="select-box">
+        <%= f.collection_select :category_id, Category.all, :id, :name, {}, class: 'select-box' %>
+      </div>
+      <div class="select-box">
+        <%= f.collection_select :status_id, Status.all, :id, :name, {}, class: 'select-box' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="items-shipping">
+    <div class="weight-bold-text">配送料の負担</div>
+    <%= f.collection_select :shipping_fee_id, ShippingFee.all, :id, :name, {}, class: 'select-box' %>
+
+    <div class="weight-bold-text">発送元の地域</div>
+    <%= f.collection_select :prefecture_id, Prefecture.all, :id, :name, {}, class: 'select-box' %>
+
+    <div class="weight-bold-text">発送までの日数</div>
+    <%= f.collection_select :schedule_id, Schedule.all, :id, :name, {}, class: 'select-box' %>
+  </div>
+
+  <div class="items-price">
+    <div class="weight-bold-text">販売価格</div>
+    <%= f.number_field :price, class: "price-input", placeholder: "300〜9,999,999" %>
+    <%# 手数料・利益の即時計算表示は要件外。出品時と同じ見た目ならOK %>
+  </div>
+
+  <div class="sell-btn-contents">
+    <%= f.submit @item.persisted? ? '変更する' : '出品する', class: "sell-btn" %>
+    <%= link_to 'もどる', @item.persisted? ? item_path(@item) : root_path, class: "back-btn" %>
+  </div>
+<% end %>
