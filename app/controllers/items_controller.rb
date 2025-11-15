@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: %i[new create edit update]
   before_action :set_item, only: %i[show edit update]
@@ -13,6 +15,8 @@ class ItemsController < ApplicationController
     @item = Item.new
   end
 
+  def edit; end
+
   def create
     @item = current_user.items.build(item_params)
     if @item.save
@@ -21,8 +25,6 @@ class ItemsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-
-  def edit; end
 
   def update
     # 画像は新しく選ばれていない限りそのままなので「何も編集せず変更」でも画像は消えません
@@ -41,8 +43,8 @@ class ItemsController < ApplicationController
   end
 
   def authorize_item!
-      redirect_to root_path unless current_user == @item.user
-    end
+    redirect_to root_path unless current_user == @item.user
+  end
 
   def item_params
     params.require(:item).permit(

@@ -106,8 +106,13 @@
   </div>
 
   <!-- 下部ボタン -->
-  <div class="sell-btn-contents">
-    <%= f.submit (defined?(submit_label) ? submit_label : "出品する"), class: "sell-btn" %>
-    <%= link_to 'もどる', (defined?(back_path) ? back_path : root_path), class: "back-btn" %>
-  </div>
+<div class="sell-btn-contents">
+  <%# ラベルは locals 優先 / 未指定なら new→出品する, edit→変更する %>
+  <% submit_text = local_assigns[:submit_label] || (action_name == 'edit' ? '変更する' : '出品する') %>
+  <%= f.submit submit_text, class: "sell-btn" %>
+
+  <%# もどるは locals 優先 / 未指定なら new→root_path, edit→item_path(@item) %>
+  <% back_to = local_assigns[:back_path] || (action_name == 'edit' ? item_path(@item) : root_path) %>
+  <%= link_to 'もどる', back_to, class: "back-btn", data: { turbo: false } %>
+</div>
 <% end %>
