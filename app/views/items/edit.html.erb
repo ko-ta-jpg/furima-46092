@@ -6,6 +6,9 @@
   <div class="items-sell-main">
     <h2 class="items-sell-title">商品の情報を編集</h2>
     <%= render 'form', submit_label: '変更する', back_path: item_path(@item) %>
+  <div class="sell-btn-contents">
+    <%= link_to 'もどる', item_path(@item), class: "back-btn" %>
+  </div>
   </div>
 
   <footer class="items-sell-footer">
