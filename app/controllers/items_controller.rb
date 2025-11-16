@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: %i[new create edit update]
-  before_action :set_item, only: %i[show edit update]
-  before_action :authorize_item!, only: %i[edit update]
+  before_action :authenticate_user!, only: %i[new create edit update destroy]
+  before_action :set_item,           only: %i[show edit update destroy]
+  before_action :authorize_item!,     only: %i[edit update destroy]  
 
   def index
     @items = Item.includes(:user, image_attachment: :blob).order(created_at: :desc)
@@ -35,6 +35,12 @@ class ItemsController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
+
+
+  def destroy
+      @item.destroy
+      redirect_to root_path, notice: '商品を削除しました。'
+    end
 
   private
 
