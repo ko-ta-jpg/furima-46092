@@ -36,7 +36,6 @@
     <%= button_to "削除",
                   item_path(@item),
                   method: :delete,
-                  form: { data: { turbo_confirm: "削除してよろしいですか？" } },
                   class: "item-destroy" %>
   <% else %>
     <%# 他人の出品 → 購入だけ %>
