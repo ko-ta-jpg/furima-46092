@@ -3,6 +3,7 @@
 class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
+  has_one :order
 
   # ActiveHash
   extend ActiveHash::Associations::ActiveRecordExtensions
@@ -33,7 +34,7 @@ class Item < ApplicationRecord
     validates :schedule_id
   end
 
-  # 価格：半角数値／範囲
+  # 価格：半角整数かつ範囲
   validates :price,
             numericality: {
               only_integer: true,
@@ -41,4 +42,8 @@ class Item < ApplicationRecord
               less_than_or_equal_to: 9_999_999
             },
             allow_blank: true
+
+  def sold_out?
+    order.present?
+  end
 end

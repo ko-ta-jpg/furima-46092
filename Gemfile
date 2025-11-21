@@ -51,3 +51,5 @@ group :production do
 end
 
 gem 'active_hash'
+
+gem 'payjp'
