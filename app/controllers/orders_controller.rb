@@ -12,7 +12,6 @@ class OrdersController < ApplicationController
   end
 
   def create
-    Rails.logger.debug { "PARAMS: #{params.inspect}" }
     @order_address = OrderAddress.new(order_address_params)
     if @order_address.valid?
       pay_item

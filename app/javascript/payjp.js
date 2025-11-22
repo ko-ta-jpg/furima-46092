@@ -27,7 +27,6 @@ document.addEventListener('turbo:load', () => {
     const result = await payjp.createToken(numberElement);
 
     if (result.error) {
-      console.log("PAYJP ERROR:", result.error);
       form.submit();
       return;
     }

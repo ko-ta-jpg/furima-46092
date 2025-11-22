@@ -27,22 +27,15 @@
       </span>
     </div>
 
-<%# ログインしているときだけボタンの判定をする %>
-<% if user_signed_in? %>
-
-  <% if current_user == @item.user && !@item.sold_out? %>
-    <%# 出品者 かつ 未売却 → 編集・削除だけ %>
-    <%= link_to "商品の編集", edit_item_path(@item), class: "item-red-btn" %>
-    <%= link_to "削除", item_path(@item),
-                data: { turbo_method: :delete },
-                class: "item-destroy" %>
-
-  <% elsif current_user != @item.user && !@item.sold_out? %>
-    <%# 他人の出品 かつ 未売却 → 購入ボタンだけ %>
-    <%= link_to "購入画面に進む", item_orders_path(@item), class: "item-red-btn" %>
-
+<% if user_signed_in? && !@item.sold_out? %>
+  <% if current_user == @item.user %>
+    <%# 自分の出品：編集・削除ボタン %>
+    <%= link_to '編集', edit_item_path(@item), class: 'item-red-btn' %>
+    <%= link_to '削除', item_path(@item), data: { turbo_method: :delete }, class: 'item-destroy' %>
+  <% else %>
+    <%# 他人の出品：購入ボタン %>
+    <%= link_to '購入画面に進む', item_orders_path(@item), class: 'item-red-btn' %>
   <% end %>
-
 <% end %>
 
     <div class="item-explain-box">
