@@ -137,7 +137,9 @@
                   <%= image_tag "item-sample.png", class: "item-img" %>
                 <% end %>
                 <%# 購入機能実装後に sold out を表示 %>
-                <%# <div class='sold-out'><span>Sold Out!!</span></div> %>
+                <% if item.sold_out? %>
+                <div class='sold-out'><span>Sold Out!!</span></div>
+                <% end %>>
               </div>
   
               <div class='item-info'>

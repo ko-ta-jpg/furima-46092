@@ -9,10 +9,12 @@
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
   <%= javascript_importmap_tags %>
+  <meta name="payjp-public-key" content=pk_test_1ec1ab0a4e3fa709ca96db1f>
 </head>
 
 <body>
   <%= yield %>
+  <script src="https://js.pay.jp/v2/pay.js"></script>
 </body>
 
 </html>

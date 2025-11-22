@@ -3,7 +3,8 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: %i[new create edit update destroy]
   before_action :set_item,           only: %i[show edit update destroy]
-  before_action :authorize_item!,     only: %i[edit update destroy]  
+  before_action :authorize_item!, only: %i[edit update destroy]
+  before_action :redirect_if_sold_out, only: %i[edit update]
 
   def index
     @items = Item.includes(:user, image_attachment: :blob).order(created_at: :desc)
@@ -36,16 +37,23 @@ class ItemsController < ApplicationController
     end
   end
 
-
   def destroy
-      @item.destroy
-      redirect_to root_path, notice: '商品を削除しました。'
-    end
+    @item.destroy
+    redirect_to root_path, notice: '商品を削除しました。'
+  end
 
   private
 
   def set_item
     @item = Item.find(params[:id])
+  end
+
+  def redirect_if_not_owner
+    redirect_to root_path unless current_user == @item.user
+  end
+
+  def redirect_if_sold_out
+    redirect_to root_path if @item.order.present?
   end
 
   def authorize_item!

@@ -12,12 +12,16 @@ require 'rspec/rails'
 
 # ---- ここから下は追加設定ゾーン ----
 
-# FactoryBotのメソッド（build / create など）を使いやすくする
 RSpec.configure do |config|
-  config.fixture_path = Rails.root.join('spec/fixtures').to_s
+  # ↓ Rails の fixture 機能は使わないので、あってもなくてもどちらでもOK
+  # config.fixture_path = Rails.root.join('spec/fixtures').to_s
 
-  # トランザクションでテストDBをきれいに保つ（Rails標準）
-  config.use_transactional_fixtures = true
+  # ▼ ここがポイント１：トランザクションフィクスチャをオフにする
+  #   （ActiveRecord::TestFixtures が Fiber＋MySQL でコケるのを避ける）
+  config.use_transactional_fixtures = false
+
+  # ▼ ここがポイント２：fixtures 自体も使わない宣言
+  config.use_fixtures = false if config.respond_to?(:use_fixtures=)
 
   # Railsの各種ヘルパーを自動で読み込む
   config.infer_spec_type_from_file_location!
@@ -25,8 +29,9 @@ RSpec.configure do |config|
   # backtraceをスッキリさせる
   config.filter_rails_from_backtrace!
 
-  # FactoryBotの `build(:user)` をそのまま書けるように
+  # FactoryBotの `build(:user)` などをそのまま使えるように
   config.include FactoryBot::Syntax::Methods
 
+  # spec/support 以下のヘルパー読み込み
   Rails.root.glob('spec/support/**/*.rb').each { |f| require f }
 end
