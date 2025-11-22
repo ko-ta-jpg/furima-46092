@@ -27,7 +27,4 @@
     priceInput.oninput = recalc;
     recalc();
   };
-
-  document.addEventListener("turbo:load", boot);
-  document.addEventListener("turbo:render", boot);
 })();
