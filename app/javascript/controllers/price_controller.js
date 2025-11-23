@@ -1,30 +1,35 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["price", "fee", "profit"];
+  static targets = ["price", "fee", "profit"]
 
   connect() {
-    // 画面表示時にも一度計算
-    this.recalc();
+    // ページ表示直後にも一度計算
+    this.recalc()
   }
 
   recalc() {
-    const raw = this.priceTarget.value || "";
-    const digits = raw.replace(/[^\d]/g, ""); // 数字以外除去
+    const input = this.priceTarget
+    const feeOut = this.feeTarget
+    const profitOut = this.profitTarget
+
+    const digits = (input.value || "").replace(/[^\d]/g, "")
+
     if (digits === "") {
-      this.feeTarget.textContent = "";
-      this.profitTarget.textContent = "";
-      return;
+      feeOut.textContent = ""
+      profitOut.textContent = ""
+      return
     }
-    const val = parseInt(digits, 10);
+
+    const val = parseInt(digits, 10)
     if (Number.isFinite(val)) {
-      const fee = Math.floor(val * 0.1);
-      const profit = val - fee;
-      this.feeTarget.textContent = String(fee);
-      this.profitTarget.textContent = String(profit);
+      const fee = Math.floor(val * 0.1)
+      const profit = val - fee
+      feeOut.textContent = String(fee)
+      profitOut.textContent = String(profit)
     } else {
-      this.feeTarget.textContent = "";
-      this.profitTarget.textContent = "";
+      feeOut.textContent = ""
+      profitOut.textContent = ""
     }
   }
 }
